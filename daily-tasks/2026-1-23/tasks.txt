@@ -1,0 +1,24 @@
+DAY-3
+What is a recursive function, and how does it differ from an iterative solution?
+Why is it important to have a base case in a recursive function?
+What is a context manager in python?
+What is the purpose of the with statement in Python?
+How does the with statement help in managing resources like files or network connections?
+What is the role of the enter and exit methods in a context manager, and how do they work together when using the with statement in Python?
+What are the different file modes in Python (r, w, a, rb, wb)?
+What is the difference between read(), readline(), and readlines() methods?
+What is a CSV file, and why is it widely used?
+How does Python’s csv module help in reading and writing CSV files?
+What is JSON, and how is it different from Python dictionaries?
+Why is JSON preferred for data exchange in web APIs?
+
+task 1: Write a recursive function to calculate the factorial of a number.
+task 2:  Write a recursive function to find the nth Fibonacci number.
+task 3: Use a with statement to open a file and print all its contents.
+task 4: Write a custom context manager class using __enter__ and __exit__ that logs when a block starts and ends.
+task 5: Write a program to copy the contents of one file to another.
+task 6: Write a program to count how many lines, words, and characters are in a given text file.
+task 7: Write a Python script to read a CSV file and print its contents row by row.
+tasl 8: Write a program to create a CSV file with columns: id, name, age, and insert 3 rows of data.
+task 9: Write a Python program to convert a dictionary into a JSON string and save it to a file.
+task 10: Write a Python program to read a JSON file containing a list of users and print only their names.
