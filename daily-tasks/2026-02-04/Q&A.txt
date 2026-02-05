@@ -1,0 +1,272 @@
+SQL Fundamentals
+
+What is the basic structure of a SELECT query?
+=> SELECT column_name FROM table_name;
+
+What is the difference between WHERE and HAVING?
+=> where filters rows before grouping.
+   having filters groups after group by. 
+
+In what order are SQL clauses executed internally?
+=> FROM
+    WHERE
+    GROUP BY
+    HAVING
+    SELECT
+    ORDER BY
+    LIMIT
+
+When should ORDER BY be used?
+=> order by is used when u want the results to be ordered either asendingly or descendingly. 
+
+What are column aliases and why are they useful?
+=> column aliases are aliases that we use to rename columns for readability. 
+
+How does COUNT(*) differ from COUNT(column_name)?
+=> count(*) counts all the rows of the result. while count(column_name) only counts the non-NULL valyes of the column. 
+
+How does SQL treat NULL values in comparisons?
+=> NULL values are a type of their own. so they cant be compared directly with the "=" operator but rather need IS operator. 
+
+When should IN be used instead of =?
+=> we use IN when checking against multiple values. 
+
+What is the difference between BETWEEN and using comparison operators?
+=> BETWEEN is inclusive. so it includes both ends of the range. 
+
+How does LIKE work and when should it be used?
+=> LIKE is used for pattern matching with wildcards. 
+    % --> any number of characters
+    _ --> exactly one character. 
+
+
+Aggregate Functions
+What does an aggregate function do?
+=> aggregate functions perform calculations on multiple rows and return a single value. 
+
+What happens to rows when GROUP BY is used?
+=> GROUP BY combines rows into groups based on matching values in specified columns.
+
+Why must non-aggregated columns appear in the GROUP BY clause?
+=> Because SQL needs to know how to group rows for every column in the SELECT list.
+    Every selected column must be:
+        aggregated OR
+        listed in GROUP BY
+
+What is the difference between SUM() and AVG()?
+=> sum() calculates the sum of all the rows in the group while avg() calculates the average of all values in the group. 
+
+How does MIN() and MAX() work on numeric vs string columns?
+=> MIN() and MAX() work on 
+    Numeric columns → smallest / largest number
+    String columns → based on lexicographical (alphabetical) order
+
+How can multiple aggregate functions be used in one query?
+=> we can use multiple aggregate functions in the select statement. we dont need group by clause if we dont select aggregated and non-aggregated columns at the same time. 
+
+When should HAVING be used instead of WHERE?
+=> Use HAVING when filtering aggregate results.
+    WHERE → filters rows
+    HAVING → filters groups
+
+How do you filter groups based on aggregate results?
+=> Using HAVING clause with an aggregate function.
+
+How does COUNT(column) behave when NULL values are present?
+=> count ignores the NULL values. 
+
+Can aggregate functions be used without GROUP BY? If yes, how?
+=> If there is no GROUP BY, the aggregate runs on the entire table.
+
+Window Functions
+What is a window function?
+-> A window function performs a calculation across a set of related rows (a window) while keeping each row in the result.
+
+How is a window function different from an aggregate function?
+=> 
+   aggregate function        |       window function
+============================================================
+1. collapses rows            |       keeps all the rows
+2. returns one row per gorup |       returns one value per row
+3. uses group by             |       uses over()
+
+What does the OVER() clause do?
+=> OVER() defines how the window is formed.
+
+Why do window functions not reduce the number of rows?
+=> Because they don’t group rows together.
+They calculate values across rows but return a result for every original row.
+
+When should window functions be preferred over GROUP BY?
+=> Use window functions when you need:
+        Both detail rows and aggregates together
+        Running totals
+        Rankings (RANK(), ROW_NUMBER())
+        Comparisons (row vs average, previous row, etc.)
+
+    Use GROUP BY when:
+        You only need summary results
+        You want fewer rows
+
+PARTITION BY
+What does PARTITION BY do in a window function?
+=> PARTITION BY splits the result set into groups (partitions), and the window function is applied separately within each group, without collapsing rows.
+
+How is PARTITION BY different from GROUP BY?
+=> 
+    grou by                 |       partition by 
+=====================================================================
+    1. it collapses rows    | 1. it doesnt collapse rows
+    2. it is used with      | 2. it is used with window funcitons. 
+        aggregate functions.| 
+    3. it doesnt keep row   | 3. it keeps row level detail.
+        level detail        |
+
+What happens if PARTITION BY is not used?
+=> if partition by is not used then the window functions treats the entire result set as a single window. 
+
+Can multiple columns be used in PARTITION BY?
+=> yes. 
+    for example:
+    PARTITION BY department, job_title
+
+How does partitioning affect salary calculations per department?
+=> without partitioning the window function computes the calculations over the entire result set ie. across all departments. but with partitioning, we can compute the calculations over each department. 
+
+How does partitioning affect order calculations per customer?
+=> without partitioning the order calculations would continue across all customers which is wrong in most cases. but with partitioning the orders are grouped per customers and the calculations reset over each group.
+
+ORDER BY inside OVER()
+=>  Defines the order used for the window calculation
+    Affects running totals, rankings, moving averages, etc.
+    Does not control the final display order (unless you also add a query-level ORDER BY)
+
+What is the difference between ORDER BY in a query and ORDER BY inside OVER()?
+=> order by in query:
+    Sorts the final result set
+    Happens after all calculations
+    Has nothing to do with how window functions are calculated
+
+   order by in over:
+    Defines the order used for the window calculation
+    Affects running totals, rankings, moving averages, etc.
+    Does not control the final display order (unless you also add a query-level ORDER BY)
+   
+How does ordering affect running totals?
+=> What SQL does:
+    Sorts rows within each customer
+    Starts from the first row
+    Keeps running window function as it moves forward
+
+What happens if ORDER BY is omitted in window functions?
+=> if order by isnt used then it doesnt give any "running" behavior. 
+
+How does ordering affect ranking functions?
+=> Ranking functions are entirely driven by the ORDER BY clause — it defines the sequence, priority, and tie behavior of the ranks.
+
+How does SQL determine the current row in a window frame?
+=> SQL determines the current row in a window frame by:
+    Start at the first row in the partition
+    End at the current row
+    “Current row” is defined by the ordering column(s)
+
+Ranking Functions
+What does ROW_NUMBER() do?
+=>  Assigns a unique sequential number to each row
+    Numbers are based on the ORDER BY inside OVER()
+    No ties — even identical values get different numbers
+    
+How does RANK() handle ties?
+=>  Assigns the same rank to tied rows
+    Skips the next rank(s) after a tie
+
+How does DENSE_RANK() handle ties?
+=>
+    Assigns the same rank to tied rows
+    Does not skip rank numbers
+
+What is the difference between RANK() and DENSE_RANK()?
+=> 
+    | Feature            | RANK()   | DENSE_RANK() |
+    | ------------------ | ---------| ------------ |
+    | Ties get same rank | yes      | yes          |
+    | Gaps after ties    | yes      | no           |
+    | Rank continuity    | no       | yes          |
+
+When should ROW_NUMBER() be used instead of RANK()?
+=> 
+    Use ROW_NUMBER() when:
+    You need exactly one row per group
+    Ties must still be treated as separate rows
+    You’re doing deduplication or picking a single “top” row
+
+How can you find the highest paid employee per department using ranking functions?
+=> ROW_NUMBER() OVER (
+  PARTITION BY department
+  ORDER BY salary DESC
+)
+
+Offset (Analytical) Functions
+What does LAG() do?
+=> Returns a value from a previous row in the result set
+    Based on the ordering defined in OVER()
+
+What does LEAD() do?
+=> 
+    LAG() is simpler, faster, and clearer
+    No need to join a table to itself
+    Automatically respects partitioning and ordering
+
+How is LAG() different from self-joins?
+=> 
+    LAG() is simpler, faster, and clearer
+    No need to join a table to itself
+    Automatically respects partitioning and ordering
+
+What happens when there is no previous row in LAG()?
+=> 
+    Returns NULL by default
+    You can provide a default value 
+
+How can LEAD() be used to find the next order date?
+=> 
+    Orders rows by date
+    Retrieves the following date per row
+
+How does ordering impact LAG() and LEAD() results?
+=> 
+    Ordering defines what “previous” and “next” mean
+    Changing the order completely changes the output
+    Without ordering, results are undefined or invalid
+
+Cumulative & Running Calculations
+What is a running total?
+=> 
+    A total that accumulates row by row
+    Each row includes all previous rows’ values
+
+How is a running total calculated using window functions?
+=>
+    SUM(amount) OVER (ORDER BY date)
+
+What is a cumulative average?
+=> The average calculated from the first row up to the current row
+    AVG(amount) OVER (ORDER BY date)
+
+How does SUM() OVER() differ from SUM() with GROUP BY?
+=> 
+    | Feature                 | SUM() + GROUP BY | SUM() OVER() |
+    | ----------------------- | ---------------- | ------------ |
+    | Collapses rows          | yes              | no           |
+    | Keeps row detail        | no               | yes          |
+    | Used for running totals | yes              | yes          |
+
+How do you calculate running totals per partition?
+=>
+    SUM(amount) OVER (
+    PARTITION BY customer_id
+    ORDER BY order_date
+    )
+
+How do you calculate running totals across the entire table?
+=> SUM(amount) OVER (ORDER BY order_date)

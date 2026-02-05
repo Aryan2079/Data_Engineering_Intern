@@ -1,0 +1,27 @@
+Aggegrate Functions:
+Find the total number of employees in each department.
+Calculate the average salary per department.
+Find the maximum salary in the company.
+Get the total salary expense for each department.
+List departments having more than 2 employees.
+Find the minimum and maximum order amount from the orders table.
+Calculate the total amount spent by each customer.
+Find customers whose total spending exceeds 500.
+Calculate total revenue per region from the sales table.
+Find the average revenue per salesperson, but only include those with average revenue > 400.
+
+Window Functions:
+
+Based on employees
+Rank employees by salary within each department.
+Show each employee’s salary along with the average salary of their department.
+Assign a row number to employees ordered by hire_date.
+Show each employee’s salary and the difference from department average salary.
+Find the highest paid employee per department using RANK().
+
+Based on orders
+Calculate the running total of order amounts per customer, ordered by date.
+Show each order and the previous order amount for the same customer.
+Rank customers by total order amount (using window functions).
+Show each order with the next order date for the same customer.
+Calculate the cumulative amount spent across all customers ordered by order_date.

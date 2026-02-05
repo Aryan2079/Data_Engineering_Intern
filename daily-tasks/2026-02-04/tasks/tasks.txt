@@ -1,0 +1,69 @@
+SQL Fundamentals
+What is the basic structure of a SELECT query?
+What is the difference between WHERE and HAVING?
+In what order are SQL clauses executed internally?
+When should ORDER BY be used?
+What are column aliases and why are they useful?
+How does COUNT(*) differ from COUNT(column_name)?
+How does SQL treat NULL values in comparisons?
+When should IN be used instead of =?
+What is the difference between BETWEEN and using comparison operators?
+How does LIKE work and when should it be used?
+
+Aggregate Functions
+What does an aggregate function do?
+What happens to rows when GROUP BY is used?
+Why must non-aggregated columns appear in the GROUP BY clause?
+What is the difference between SUM() and AVG()?
+How does MIN() and MAX() work on numeric vs string columns?
+How can multiple aggregate functions be used in one query?
+When should HAVING be used instead of WHERE?
+How do you filter groups based on aggregate results?
+How does COUNT(column) behave when NULL values are present?
+Can aggregate functions be used without GROUP BY? If yes, how?
+
+Window Functions
+What is a window function?
+How is a window function different from an aggregate function?
+What does the OVER() clause do?
+Why do window functions not reduce the number of rows?
+When should window functions be preferred over GROUP BY?
+
+PARTITION BY
+What does PARTITION BY do in a window function?
+How is PARTITION BY different from GROUP BY?
+What happens if PARTITION BY is not used?
+Can multiple columns be used in PARTITION BY?
+How does partitioning affect salary calculations per department?
+How does partitioning affect order calculations per customer?
+
+ORDER BY inside OVER()
+What is the difference between ORDER BY in a query and ORDER BY inside OVER()?
+How does ordering affect running totals?
+What happens if ORDER BY is omitted in window functions?
+How does ordering affect ranking functions?
+How does SQL determine the current row in a window frame?
+
+Ranking Functions
+What does ROW_NUMBER() do?
+How does RANK() handle ties?
+How does DENSE_RANK() handle ties?
+What is the difference between RANK() and DENSE_RANK()?
+When should ROW_NUMBER() be used instead of RANK()?
+How can you find the highest paid employee per department using ranking functions?
+
+Offset (Analytical) Functions
+What does LAG() do?
+What does LEAD() do?
+How is LAG() different from self-joins?
+What happens when there is no previous row in LAG()?
+How can LEAD() be used to find the next order date?
+How does ordering impact LAG() and LEAD() results?
+
+Cumulative & Running Calculations
+What is a running total?
+How is a running total calculated using window functions?
+What is a cumulative average?
+How does SUM() OVER() differ from SUM() with GROUP BY?
+How do you calculate running totals per partition?
+How do you calculate running totals across the entire table?

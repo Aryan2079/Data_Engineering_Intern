@@ -1,0 +1,7 @@
+sale_id,region,salesperson,sale_date,revenue
+1,East,John,2024-01-01,500
+2,East,John,2024-01-10,700
+3,West,Emma,2024-01-05,400
+4,West,Emma,2024-01-20,900
+5,North,Liam,2024-01-15,300
+6,North,Liam,2024-01-25,600
