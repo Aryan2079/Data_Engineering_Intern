@@ -1,0 +1,23 @@
+PRACTICAL QUESTIONS
+
+Create a NumPy array containing numbers from 10 to 50 with step 5.
+Create a 3x3 matrix with random integers between 1 and 100.
+Find the mean, median, and standard deviation of an array.
+Reshape a 1D array of 12 elements into a 3x4 matrix.
+Extract all even numbers from an array.
+Replace all values greater than 50 with 0.
+Perform element-wise multiplication of two arrays.
+Compute the dot product of two matrices.
+Find the index of the maximum and minimum values in an array.
+Normalize an array so values are between 0 and 1.
+
+Create a DataFrame from a dictionary.
+Load a CSV file and display the first 5 rows.
+Select specific columns from a DataFrame.
+Filter rows where a column value is greater than a given number.
+Add a new column based on an existing column.
+Drop rows with missing values.
+Group by one column and calculate the average of another column.
+Merge two DataFrames on a common column.
+Convert a column to datetime format.
+Create a pivot table showing the average of one column grouped by two other columns.

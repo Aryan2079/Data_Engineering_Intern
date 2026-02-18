@@ -1,0 +1,238 @@
+NUMPY
+1. What is NumPy and why is it preferred over Python lists for numerical computations?
+=> NumPy is an open-source library for doing numerical computations. it provides N-dimensional object(ndarray), mathematical functions, tools for working with large datasets efficiently. 
+
+it is preferred over python lists for numerical computations because:
+    - speed: since numpy arrays are implemented in c, they are much faster. 
+    - memory efficient: numpy array are stored in contigious memory so they are much faster as compared to python objects in lists.
+    - vectorized operations: numpy arrays allows vectorization, meaning u can apply operations to entire arrays without using loops.
+    - advanded mathematical functions: numpy provides advanced functions for numerical computations
+    - multi-dimensional arrays: numpy naturally supports multi-dimensional arrays while python can only simulate n-dimensional array
+
+2. What is an ndarray? How is it different from a regular Python list?
+=> ndarray(N-dimensional array) is the main data structure in NumPy. 
+
+it is different from a regular python list by:
+    - stores data in contigious memory
+    - stores data of same datatype
+    - supports fast, vectorized operations
+    - can have multiple dimensions
+
+3. Explain vectorization in NumPy. Why is it faster than loops?
+=> in NumPy, vectorization means performing operations on entire arrays at once without writing explicit python loops. 
+
+it is faster than python loops because:
+    - no python level looping: python loops are slow because each loops is evaluated at runtime
+    - better memory usage: elements are stored in contigious memory so they can be accessed faster and cache can be used effectively.
+    - uses optimized low level libraries
+    - cpu level optimization: it uses SIMD(single instruction multiple data)
+
+4. What is broadcasting? Give an example use case.
+=> in NumPy, broadcasting is a mechanism that allow NumPy to perform operations on arrays of different shapes automatically, without explicitly reshaping them. 
+
+Rules for broadcasting:
+    - the dimensions between the array must be either one or same, compared from right to left. 
+
+example: 
+    arr = np.array([1, 2, 3, 4])
+    result = arr + 5 
+    output: [6 7 8 9]
+
+5. What is the difference between reshape() and resize()?
+=> reshape():
+    it changes the shape of the original array without changing the elements of the array.
+
+    example:
+    arr = np.array([1, 2, 3, 4, 5, 6])
+    reshaped = arr.reshape(2, 3)
+    print(reshaped)
+
+    output:
+    [[1 2 3]
+    [4 5 6]]
+
+   resize():
+    it changes the shape of the original array and also changes the elements fo the array. 
+
+    example:
+    arr = np.array([1, 2, 3, 4])
+    arr.resize(6)
+    print(arr)
+
+    output:
+    [1 2 3 4 0 0]
+
+
+6. What are universal functions (ufuncs)?
+=> in NumPy, universal functions (ufuncs) are vectorized functions that operate element-wise on arrays. 
+
+    example:
+    arithmetic ufuncs:
+
+    np.add(a, b)
+    np.subtract(a, b)
+    np.multiply(a, b)
+    np.divide(a, b)
+
+    mathematical ufuncs:
+
+    np.sin(arr)
+    np.cos(arr)
+    np.exp(arr)
+    np.log(arr)
+    np.sqrt(arr)
+
+    comparison ufuncs:
+
+    np.greater(a, b)
+    np.equal(a, b)
+
+
+7. What is the difference between shallow copy and deep copy in NumPy?
+=> shallow copy (view):
+    - a new array object is created
+    - but it shares the same underlying memory 
+    - changes in one array effect the other
+
+   deep copy:
+    - a new array object
+    - new memory 
+    - completely independent data
+
+8. Explain indexing and slicing in multi-dimensional arrays.
+=> Indexing:
+    Indexing is the process of accessing a specific element of an array by specifying its position along each dimension.
+    - In a multidimensional NumPy array:
+    - Each dimension has its own index.
+    - Indices are separated by commas.
+    - The number of indices equals the number of dimensions.
+
+   Slicing:
+    Slicing is the process of selecting a subset (subarray) of elements by specifying a range of indices for one or more dimensions.
+
+9. What does the axis parameter mean in operations like sum() or mean()?
+=> in operations like sum() and mean() axis parameter is used to define alone which axis do we want to perform the operation. 
+    0 => along the columns
+    1 => across the columns
+
+10. How does NumPy store data in memory compared to Python lists?
+=> NumPy stores data in a contigious fashion compared to python lists which stores data in a non-contigious order in the form of python objects. 
+
+PANDAS
+1. What is Pandas and how is it different from NumPy?
+=> Pandas is a powerful open-source Python library used for data analysis and data manipulation. It is especially useful for working with structured/tabular data, like spreadsheets or SQL tables.
+
+while NumPy is an open-source library used for numerical computation. pandas is built on top of NumPy.
+
+2. What is a Series? What is a DataFrame?
+=> series: 
+    a series in pandas is a 1-D labeled array
+        example:
+        s = pd.Series([10, 20, 30], index=["a", "b", "c"])
+        print(s)
+
+   dataframe: 
+    a dataframe is a two-dimensional labeled data structure.
+        example:
+        df = pd.DataFrame({
+        "Name": ["Alice", "Bob"],
+        "Age": [25, 30]
+        })
+
+        print(df)
+
+
+3. What is the difference between loc and iloc?
+=> loc:
+    loc selects rows and columns using labels (names).
+    example:
+    df = pd.DataFrame({
+    "Name": ["Alice", "Bob", "Charlie"],
+    "Age": [25, 30, 35]
+    }, index=["a", "b", "c"])
+
+    df.loc["a"]        
+    df.loc["a", "Age"]
+
+  iloc:
+    iloc selects rows and columns using integers positions.
+    example:
+    df.iloc[0]
+    df.iloc[0, 1]
+
+4. What is the difference between merge(), join(), and concat()?
+=> merge():
+    merge is used to combine dataframes based on common values.
+    example:
+    df1 = pd.DataFrame({
+    "ID": [1, 2],
+    "Name": ["Alice", "Bob"]
+    })
+
+    df2 = pd.DataFrame({
+        "ID": [1, 2],
+        "Score": [85, 90]
+    })
+
+    pd.merge(df1, df2, on="ID")
+
+   join():
+    join() is mainly used to join DataFrames based on the index.
+    example:
+    df1.join(df2)
+
+   concat():
+    concat() is used to combine DataFrames along rows or columns.
+    example:
+    pd.concat([df1, df2])
+
+5. How does Pandas handle missing values?
+=> Pandas uses special markers for missing data:
+    NaN → for numeric data
+    None → for object (string) data
+    NaT → for missing datetime values
+
+6. What is groupby and why is it used?
+=> groupby() is used when we want to split the data into groups, apply a function and combine the results. 
+    example:
+
+    df = pd.DataFrame({
+        "Department": ["HR", "IT", "HR", "IT"],
+        "Salary": [50000, 70000, 55000, 80000]
+    })
+
+    df.groupby("Department")["Salary"].mean()
+
+
+7. What is the difference between apply() and map()?
+=> map():
+    map only works with single column(series). It applies something to each individual value.
+    example:
+    s = pd.Series([1, 2, 3])
+    s.map(lambda x: x * 2)
+
+   apply():
+    apply is similar to map but it works with both series and dataframe. 
+    example:
+    df = pd.DataFrame({
+    "A": [1, 2],
+    "B": [3, 4]
+    })
+
+    df.apply(sum)        # column-wise
+    df.apply(sum, axis=1)  # row-wise
+
+
+8. What is a MultiIndex in Pandas?
+=> A MultiIndex (also called Hierarchical Index) is an index with multiple levels.
+Instead of just a single row label, you can have two or more levels of labels for rows or columns.
+
+9. What is a pivot table?
+=> A pivot table is a table that summarizes data by aggregating values based on one or more keys (rows and columns).
+
+10. How does Pandas handle time-series data?
+=> A time series is a sequence of data points indexed by time (e.g., daily stock prices, monthly sales, sensor readings).
+In Pandas, time series data usually uses:
+DatetimeIndex – index with timestamps
+Timestamps – individual datetime values (pd.Timestamp)
+Timedelta – differences between dates (pd.Timedelta)
