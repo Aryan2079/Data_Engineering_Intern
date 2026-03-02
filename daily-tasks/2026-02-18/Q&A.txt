@@ -1,0 +1,309 @@
+NUMPY – THEORETICAL QUESTIONS
+
+1. What is the difference between np.copy() and the = assignment operator?
+=> np.copy() creates a shallow copy of the array while = creates a deep copy of the array.
+
+2. What are structured arrays in NumPy? When would you use them?
+=> structured arrays in NumPy hold different types of datatypes in one array. 
+    example:
+    import numpy as np
+
+    dtype = [
+        ('name', 'U10'),     # string up to 10 chars
+        ('age', 'i4'),       # 4-byte integer
+        ('salary', 'f4')     # 4-byte float
+    ]
+
+    employees = np.array([
+        ('Alice', 25, 50000.0),
+        ('Bob', 30, 60000.0)
+    ], dtype=dtype)
+
+3. Explain the concept of strides in NumPy. How do strides relate to memory layout?
+=> in NumPy, strides tells you how many bytes to move in memory to reach the other element in the array. 
+    example:
+    a = np.array([[1, 2, 3],
+              [4, 5, 6]], dtype=np.int32)
+
+    print(a.strides)
+
+    output: 
+    (12,4) //12 bytes to move to the next row and 4 bytes to move to the next element in the same row. 
+
+4. What is the difference between C-order (row-major) and Fortran-order (column-major) arrays?
+=> c-order and f-order refers to how the elements are stored in the memory.
+    c-order:
+    in c-order, the elements of the rows are stored consequtively in the memory.
+    f-order:
+    in f-order, the elements of the columns are stored consequtively in the momory. 
+
+    example(c-order):
+    import numpy as np
+
+    a = np.array([[1, 2, 3],
+                [4, 5, 6]], order='C')
+
+    memory layout:
+    1,2,3,4,5,6
+
+    example(f-order):
+    a = np.array([[1, 2, 3],
+              [4, 5, 6]], order='F')
+    
+    memory layout:
+    1,4,2,5,3,5
+
+5. What is np.where() and how does it differ from simple boolean indexing?
+=> boolean indexing is used filter elements. 
+    example:
+
+    import numpy as np
+
+    a = np.array([10, 20, 30, 40])
+    mask = a > 20
+
+    mask:
+    array([False, False, True, True])
+
+    use:
+    a[mask]
+
+   np.where() is used to return the indexes of the elements that match the given conditions.
+   
+   conditional replacement:
+   np.where(condition, x, y)
+
+6. What is fancy indexing? How is it different from slicing?
+=> basic slicing:
+    this is just basic indexing and slicing.
+
+    example:
+    import numpy as np
+    a = np.array([10, 20, 30, 40, 50])
+
+    b = a[1:4]
+
+    important: this returns a view.
+
+   fancy indexing:
+    a = np.array([10, 20, 30, 40, 50])
+    b = a[[1, 3, 4]]
+
+    important: this returns a copy.
+
+7. What does np.einsum() do? Give a practical example.
+    => einsum() stands for einstein summation. It’s a powerful function that lets you describe array operations using index notation — like in linear algebra
+
+    notation:
+    np.einsum("index_notation", arrays...)
+
+    example:
+    np.dot(a,b)
+
+    with einsum:
+    np.einsum('i,i->', a, b)
+
+8. What is the difference between np.stack(), np.hstack(), and np.vstack()?
+=> np.hstack(): it stacks two arrays horizontally. 
+    example:
+    a = np.array([[1, 2, 3]])
+    b = np.array([[4, 5, 6]])
+
+    np.hstack([a, b])
+
+    output:
+    [[1 2 3 4 5 6]]
+
+   np.vstack(): it stacks two arrays vertically. 
+    example:
+    a = np.array([[1, 2, 3]])
+    b = np.array([[4, 5, 6]])
+
+    np.vstack([a, b])
+
+    output:
+    array([[1, 2, 3],
+       [4, 5, 6]])
+
+   np.stack(): it joins arrays along a new dimension.
+
+    example:
+    for axis = 0
+
+    a = np.array([1, 2, 3])
+    b = np.array([4, 5, 6])
+
+    np.stack([a, b], axis=0)
+
+    output:
+    array([[1, 2, 3],
+       [4, 5, 6]])
+
+    original_shape: (3,)
+    new_shape: (2,3)
+
+    for axis = 1
+
+    np.stack([a, b], axis=1)
+
+    output:
+    array([[1, 4],
+       [2, 5],
+       [3, 6]])
+
+    new_shape: (3,2)
+
+
+9. What is a masked array in NumPy and when is it useful?
+=> masked array:
+    a masked array in NumPy is an array that can hide certain elements so they are ignored in computations.
+
+    example:
+    import numpy as np
+    import numpy.ma as ma
+
+    a = np.array([10, 20, -999, 30])
+    m = ma.masked_equal(a, -999)
+
+    print(m)
+    print(m.mask)
+    print(m.data)
+
+
+10. How does NumPy handle integer overflow? How is this different from Python's behavior?
+=> NumPy arrays handle overflow silently like c. Meanwhile, python lists grow arbitrarily and done overflow. 
+
+PANDAS – THEORETICAL QUESTIONS
+
+1. What is the difference between copy() and a view in Pandas? What is the SettingWithCopyWarning?
+=> the difference between copy() and view in pandas is that a view of a pandas object points to the same memory as the object itself. so, changing the view can alter the original data itself. 
+meanwhile, copy() will create a new memory and copy the object to the new memory. so alterning a copy of that object wont alter the original object. 
+
+SettingWithCopyWarning:
+    this is an error that occurs when we do index chaining in pandas.
+    for example:
+    df[df['age'] > 50]['salary'] = 5000
+
+    here df[df['age'] > 50] will create a new object and ['salary'] will act upon that temporary object instead of the original df.
+    Meaning, this warning occurs when pandas thinks we might be modifying a copy rather than the original object.
+
+2. What is method chaining in Pandas and what are its trade-offs?
+=> method chaining in pandas means calling multiple pandas methods in a single, contingious expression instead of creating many temporary variables.
+
+    example:
+    result = (
+    df
+    .dropna()
+    .loc[lambda x: x["age"] > 18]
+    .sort_values("salary")
+    .groupby("city")
+    .mean()
+    )
+
+    trade-offs:
+    1. harder debugging
+    2. assignment is tricky
+
+3. What is the difference between stack() and unstack()?
+=> stack():
+    it moves one of more column labels into row index. 
+   
+   unstack():
+    moves one level from the row index into the columns.
+
+4. What does explode() do and when would you use it?
+=> In pandas, explode() is used to expand list-like values in a column into separate rows.
+    If a column contains:
+        lists
+        tuples
+        sets
+        arrays
+
+    explode() turns each element inside the list into its own row, while duplicating the other column values.
+
+    when is it used:
+    1. when the data is stored as lists inside cells
+    2. after groupby().agg(list)
+    3. preparing data for data analysis
+
+5. What is the difference between transform() and agg() when used with groupby?
+=> groupby.agg():
+    Applies an aggregation function to each group
+    Returns one row per group
+    The result is smaller than the original DataFrame
+
+   groupby.transform():
+    Applies a function per group
+    Returns same number of rows as original
+    Result aligns with the original index
+
+6. What is pd.cut() vs pd.qcut()? When would you prefer one over the other?
+=> pd.cut() and pd.qcut() both are used to bin contingious numerical data into categories, but they split the data in different ways. 
+    pd.cut():
+    divides data into equal width intervals. 
+
+    uses:
+    - used when you care about fixed numerical ranges.
+    - domain-defined categories.
+
+    pd.qcut():
+    divides data into equal sized groups. 
+
+    uses:
+    - used when you want balanced groups.
+    - best for statistical analysis.
+
+7. How does Pandas handle memory with large DataFrames? What strategies can reduce memory usage?
+=> in pandas memory usage depends heavily on:
+    - datatypes
+    - index size
+    - object columns
+    - copies created during operations
+
+   how pandas stores data:
+    Pandas stores data column-wise (each column is a NumPy array or extension array).
+
+    That means:
+    - Memory usage is mostly determined by column dtypes.
+    - Each column is contiguous in memory.
+
+8. What is the difference between ffill() and bfill()?
+=> both ffill() and bfill() is used to deal with timeseries data. 
+    ffill():
+    this means forward fill. this replaces the null/nan values with previous known values.
+
+    example:
+    arr = [100,200,nan,300]
+    arr.bfill()
+    output:
+    [100,200,300,300]
+
+    bfill():
+    this means backward fill. this replaces the null/nan values with later known values. 
+
+    example:
+    arr = [100,200,nan,300]
+    arr.ffill()
+    output:
+    [100,200,200,300]
+
+9. What is the purpose of pd.Categorical? How can it improve performance?
+=> pd.Categorical in pandas is a special data type designed to represent categorical variables efficiently. 
+    instead of storing repeated string values directly, it stores:
+    - a fixed list of categories
+    - an array of integer codes pointing to those categories. 
+
+    how it improves performance:
+    a. memory efficient.
+    b. faster groupby operations.
+    c. faster sorting.
+    d. better semantic Meaning
+
+10. What is the difference between resample() and rolling() in time-series operations?
+=> resample():
+    resample() is used to convert time-series data to a different frequency.
+    It works like a time-based groupby.
+   
+   rolling():
+    rolling() performs moving window calculations over your data.
+    It keeps the same frequency but computes values over a sliding window.

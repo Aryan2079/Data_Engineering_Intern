@@ -1,0 +1,23 @@
+PRACTICAL QUESTIONS
+
+1. Create a 5x5 identity matrix, then replace the diagonal with values 10, 20, 30, 40, 50.
+2. Given two 2D arrays of different shapes, use broadcasting to compute their outer sum (no loops).
+3. Create an array of 100 random numbers from a normal distribution and clip all values outside 2 standard deviations.
+4. Use np.argsort() to sort a 2D array by its second column.
+5. Create a structured NumPy array to store employee records with fields: name (string), age (int), salary (float).
+6. Given a 4x4 matrix, extract the upper triangular portion using a NumPy function.
+7. Stack three 1D arrays of length 5 vertically and horizontally, then describe the shape of each result.
+8. Compute the cumulative sum of an array row-wise and column-wise using np.cumsum().
+9. Given a 2D array, find all rows where the row sum exceeds 100.
+10. Use np.linalg to compute the inverse and determinant of a 3x3 matrix.
+
+1. Load a CSV file, identify columns with more than 20% missing values, and drop only those columns.
+2. Use groupby with transform() to add a column showing each row's value as a percentage of its group total.
+3. Reshape a DataFrame from wide format to long format using pd.melt().
+4. Given a DataFrame with a datetime column, extract the day of week and create a new column with it, then find which weekday has the highest average sales.
+5. Merge two DataFrames with different column names representing the same key using appropriate parameters.
+6. Use pd.cut() to bin an age column into labeled groups (Child, Teen, Adult, Senior).
+Detect and remove duplicate rows, but only considering a subset of columns.
+7. Apply a custom function to a grouped DataFrame using apply() that returns the range (max - min) of a column.
+8. Convert a long-format DataFrame to a pivot table and then reverse it back using stack().
+9. Chain at least 4 Pandas operations (filter, groupby, agg, sort) in a single expression and explain each step.
